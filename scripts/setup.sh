@@ -45,7 +45,11 @@ echo -e "${BLUE}Extrayendo logs a: $LOG_FILE${NC}"
 docker compose logs > "$LOG_FILE"
 
 if [ "$EXIT_CODE" -eq 0 ]; then
-    echo -e "${GREEN}Pipeline completado con exito${NC}"
+    echo -e "${GREEN}Pipeline completado con éxito${NC}"
+else
+    echo -e "${RED}El Pipeline falló con código $EXIT_CODE${NC}"
+    echo -e "${RED}Revisa el log en: $LOG_FILE${NC}"
+fi
 
 echo -e "${GREEN}Estado de los contenedores:${NC}"
 docker compose ps
