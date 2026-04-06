@@ -18,3 +18,5 @@ wheels/
 postgres_data/
 
 .DS_Store
+
+.vscode

@@ -1,0 +1,91 @@
+bd-postgres  | The files belonging to this database system will be owned by user "postgres".
+bd-postgres  | This user must also own the server process.
+bd-postgres  | 
+bd-postgres  | The database cluster will be initialized with locale "en_US.utf8".
+bd-postgres  | The default database encoding has accordingly been set to "UTF8".
+bd-postgres  | The default text search configuration will be set to "english".
+bd-postgres  | 
+etl_app      | INFO: Solicitando sismos desde 2026-04-05
+bd-postgres  | Data page checksums are disabled.
+etl_app      | INFO: Se encontraron 226 eventos sismicos
+etl_app      | INFO: Datos transformados y aplanados: 226 filas
+bd-postgres  | 
+bd-postgres  | fixing permissions on existing directory /var/lib/postgresql/data ... ok
+bd-postgres  | creating subdirectories ... ok
+etl_app      | ERROR: Error de base de datos: (psycopg2.errors.UndefinedColumn) column "updated_epoch" of relation "raw_earthquakes" does not exist
+etl_app      | LINE 1: ...aw_earthquakes (id, magnitude, place, time_epoch, updated_ep...
+etl_app      |                                                              ^
+etl_app      | 
+etl_app      | [SQL: INSERT INTO raw_earthquakes (id, magnitude, place, time_epoch, updated_epoch, longitude, latitude, depth, extracted_at) VALUES (%(id)s, %(magnitude)s, %(place)s, %(time_epoch)s, %(updated_epoch)s, %(longitude)s, %(latitude)s, %(depth)s, %(extracted_at)s) ON CONFLICT (id) DO UPDATE SET magnitude = excluded.magnitude, place = excluded.place, updated_epoch = excluded.updated_epoch]
+etl_app      | [parameters: {'id': 'nc75339632', 'magnitude': 1.63, 'place': '7 km ESE of Redway, CA', 'time_epoch': 1775447683990, 'updated_epoch': 1775447779317, 'longitude': -123.758331298828, 'latitude': 40.0890007019043, 'depth': 22.8600006103516, 'extracted_at': datetime.datetime(2026, 4, 6, 4, 1, 49, 105183)}]
+etl_app      | (Background on this error at: https://sqlalche.me/e/20/f405)
+etl_app      | CRITICAL: Fallo Critico del Pipeline (psycopg2.errors.UndefinedColumn) column "updated_epoch" of relation "raw_earthquakes" does not exist
+etl_app      | LINE 1: ...aw_earthquakes (id, magnitude, place, time_epoch, updated_ep...
+etl_app      |                                                              ^
+etl_app      | 
+etl_app      | [SQL: INSERT INTO raw_earthquakes (id, magnitude, place, time_epoch, updated_epoch, longitude, latitude, depth, extracted_at) VALUES (%(id)s, %(magnitude)s, %(place)s, %(time_epoch)s, %(updated_epoch)s, %(longitude)s, %(latitude)s, %(depth)s, %(extracted_at)s) ON CONFLICT (id) DO UPDATE SET magnitude = excluded.magnitude, place = excluded.place, updated_epoch = excluded.updated_epoch]
+etl_app      | [parameters: {'id': 'nc75339632', 'magnitude': 1.63, 'place': '7 km ESE of Redway, CA', 'time_epoch': 1775447683990, 'updated_epoch': 1775447779317, 'longitude': -123.758331298828, 'latitude': 40.0890007019043, 'depth': 22.8600006103516, 'extracted_at': datetime.datetime(2026, 4, 6, 4, 1, 49, 105183)}]
+etl_app      | (Background on this error at: https://sqlalche.me/e/20/f405)
+bd-postgres  | selecting dynamic shared memory implementation ... posix
+bd-postgres  | selecting default max_connections ... 100
+bd-postgres  | selecting default shared_buffers ... 128MB
+bd-postgres  | selecting default time zone ... UTC
+bd-postgres  | creating configuration files ... ok
+bd-postgres  | running bootstrap script ... ok
+bd-postgres  | sh: locale: not found
+bd-postgres  | 2026-04-06 04:01:37.390 UTC [35] WARNING:  no usable system locales were found
+bd-postgres  | performing post-bootstrap initialization ... ok
+bd-postgres  | syncing data to disk ... ok
+bd-postgres  | 
+bd-postgres  | 
+bd-postgres  | Success. You can now start the database server using:
+bd-postgres  | 
+bd-postgres  |     pg_ctl -D /var/lib/postgresql/data -l logfile start
+bd-postgres  | 
+bd-postgres  | initdb: warning: enabling "trust" authentication for local connections
+bd-postgres  | initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+bd-postgres  | waiting for server to start....2026-04-06 04:01:38.904 UTC [41] LOG:  starting PostgreSQL 15.17 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+bd-postgres  | 2026-04-06 04:01:38.931 UTC [41] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+bd-postgres  | 2026-04-06 04:01:38.943 UTC [44] LOG:  database system was shut down at 2026-04-06 04:01:37 UTC
+bd-postgres  | 2026-04-06 04:01:38.955 UTC [41] LOG:  database system is ready to accept connections
+bd-postgres  |  done
+bd-postgres  | server started
+bd-postgres  | CREATE DATABASE
+bd-postgres  | 
+bd-postgres  | 
+bd-postgres  | /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/01_tables.sql
+bd-postgres  | CREATE TABLE
+bd-postgres  | CREATE TABLE
+bd-postgres  | 
+bd-postgres  | 
+bd-postgres  | /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/02_views.sql
+bd-postgres  | CREATE VIEW
+bd-postgres  | CREATE VIEW
+bd-postgres  | 
+bd-postgres  | 
+bd-postgres  | /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/03_procedures.sql
+bd-postgres  | psql:/docker-entrypoint-initdb.d/03_procedures.sql:6: NOTICE:  relation "daily_earthquake_summary" already exists, skipping
+bd-postgres  | CREATE TABLE
+bd-postgres  | CREATE PROCEDURE
+bd-postgres  | 
+bd-postgres  | 
+bd-postgres  | waiting for server to shut down....2026-04-06 04:01:39.493 UTC [41] LOG:  received fast shutdown request
+bd-postgres  | 2026-04-06 04:01:39.515 UTC [41] LOG:  aborting any active transactions
+bd-postgres  | 2026-04-06 04:01:39.524 UTC [41] LOG:  background worker "logical replication launcher" (PID 47) exited with exit code 1
+bd-postgres  | 2026-04-06 04:01:39.527 UTC [42] LOG:  shutting down
+bd-postgres  | 2026-04-06 04:01:39.529 UTC [42] LOG:  checkpoint starting: shutdown immediate
+bd-postgres  | 2026-04-06 04:01:39.822 UTC [42] LOG:  checkpoint complete: wrote 925 buffers (5.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.031 s, sync=0.184 s, total=0.296 s; sync files=307, longest=0.029 s, average=0.001 s; distance=4283 kB, estimate=4283 kB
+bd-postgres  | 2026-04-06 04:01:39.835 UTC [41] LOG:  database system is shut down
+bd-postgres  |  done
+bd-postgres  | server stopped
+bd-postgres  | 
+bd-postgres  | PostgreSQL init process complete; ready for start up.
+bd-postgres  | 
+bd-postgres  | 2026-04-06 04:01:39.966 UTC [1] LOG:  starting PostgreSQL 15.17 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+bd-postgres  | 2026-04-06 04:01:39.966 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+bd-postgres  | 2026-04-06 04:01:39.966 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+bd-postgres  | 2026-04-06 04:01:39.970 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+bd-postgres  | 2026-04-06 04:01:39.978 UTC [63] LOG:  database system was shut down at 2026-04-06 04:01:39 UTC
+bd-postgres  | 2026-04-06 04:01:39.993 UTC [1] LOG:  database system is ready to accept connections
+bd-postgres  | 2026-04-06 04:01:49.109 UTC [81] ERROR:  column "updated_epoch" of relation "raw_earthquakes" does not exist at character 64
+bd-postgres  | 2026-04-06 04:01:49.109 UTC [81] STATEMENT:  INSERT INTO raw_earthquakes (id, magnitude, place, time_epoch, updated_epoch, longitude, latitude, depth, extracted_at) VALUES ('nc75339632', 1.63, '7 km ESE of Redway, CA', 1775447683990, 1775447779317,  -123.758331298828, 40.0890007019043, 22.8600006103516, '2026-04-06T04:01:49.105183'::timestamp) ON CONFLICT (id) DO UPDATE SET magnitude = excluded.magnitude, place = excluded.place, updated_epoch = excluded.updated_epoch

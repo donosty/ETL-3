@@ -1,9 +1,9 @@
-etl_app  | INFO: Solicitando sismos desde 2026-04-04
-etl_app      | INFO: Se encontraron 281 eventos sismicos
-etl_app      | INFO: Datos transformados y aplanados: 281 filas
+etl_app  | INFO: Solicitando sismos desde 2026-04-05
+etl_app  | INFO: Se encontraron 227 eventos sismicos
+etl_app  | INFO: Datos transformados y aplanados: 227 filas
+etl_app  | CRITICAL: Fallo Critico del Pipeline "Error de esquema: Faltan las columnas ['time', 'updated']"
 bd-postgres  | The files belonging to this database system will be owned by user "postgres".
 bd-postgres  | This user must also own the server process.
-etl_app      | CRITICAL: Fallo Critico del Pipeline "Error de esquema: Faltan las columnas ['time', 'updated']"
 bd-postgres  | 
 bd-postgres  | The database cluster will be initialized with locale "en_US.utf8".
 bd-postgres  | The default database encoding has accordingly been set to "UTF8".
@@ -74,3 +74,23 @@ bd-postgres  | 2026-04-05 04:50:05.425 UTC [1] LOG:  listening on IPv6 address "
 bd-postgres  | 2026-04-05 04:50:05.428 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
 bd-postgres  | 2026-04-05 04:50:05.433 UTC [63] LOG:  database system was shut down at 2026-04-05 04:50:05 UTC
 bd-postgres  | 2026-04-05 04:50:05.441 UTC [1] LOG:  database system is ready to accept connections
+bd-postgres  | 2026-04-05 04:55:05.531 UTC [61] LOG:  checkpoint starting: time
+bd-postgres  | 2026-04-05 04:55:09.972 UTC [61] LOG:  checkpoint complete: wrote 47 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=4.421 s, sync=0.010 s, total=4.442 s; sync files=13, longest=0.004 s, average=0.001 s; distance=252 kB, estimate=252 kB
+bd-postgres  | 2026-04-05 06:24:46.336 UTC [1] LOG:  received fast shutdown request
+bd-postgres  | 2026-04-05 06:24:46.338 UTC [1] LOG:  aborting any active transactions
+bd-postgres  | 2026-04-05 06:24:46.341 UTC [1] LOG:  background worker "logical replication launcher" (PID 66) exited with exit code 1
+bd-postgres  | 2026-04-05 06:24:46.342 UTC [61] LOG:  shutting down
+bd-postgres  | 2026-04-05 06:24:46.344 UTC [61] LOG:  checkpoint starting: shutdown immediate
+bd-postgres  | 2026-04-05 06:24:46.353 UTC [61] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.012 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=227 kB
+bd-postgres  | 2026-04-05 06:24:46.357 UTC [1] LOG:  database system is shut down
+bd-postgres  | 
+bd-postgres  | PostgreSQL Database directory appears to contain a database; Skipping initialization
+bd-postgres  | 
+bd-postgres  | 2026-04-05 17:14:35.378 UTC [1] LOG:  starting PostgreSQL 15.17 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+bd-postgres  | 2026-04-05 17:14:35.379 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+bd-postgres  | 2026-04-05 17:14:35.379 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+bd-postgres  | 2026-04-05 17:14:35.383 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+bd-postgres  | 2026-04-05 17:14:35.392 UTC [29] LOG:  database system was shut down at 2026-04-05 06:24:46 UTC
+bd-postgres  | 2026-04-05 17:14:35.409 UTC [1] LOG:  database system is ready to accept connections
+bd-postgres  | 2026-04-05 17:19:35.490 UTC [27] LOG:  checkpoint starting: time
+bd-postgres  | 2026-04-05 17:19:35.505 UTC [27] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.004 s, sync=0.002 s, total=0.016 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB

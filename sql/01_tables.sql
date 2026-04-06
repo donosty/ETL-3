@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS raw_earthquakes(
     magnitude FLOAT,
     place VARCHAR(255),
     time_epoch BIGINT,
-    update_epoch BIGINT,
+    updated_epoch BIGINT,
     longitude FLOAT,
     latitude FLOAT,
     depth FLOAT,

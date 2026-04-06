@@ -11,7 +11,7 @@ class Earthquake(Base):
     magnitude = Column(Float)
     place = Column(String(255))
     time_epoch = Column(BigInteger)
-    update_epoch = Column(BigInteger)
+    updated_epoch = Column(BigInteger)
     longitude = Column(Float)
     latitude = Column(Float)
     depth = Column(Float)

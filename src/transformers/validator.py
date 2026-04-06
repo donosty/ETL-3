@@ -9,7 +9,7 @@ class DataValidator:
         if df.empty:
             return df
         
-        required_cols = ['id', 'place', 'magnitude', 'time', 'updated', 'longitude', 'latitude', 'depth']
+        required_cols = ['id', 'place', 'magnitude', 'time_epoch', 'updated_epoch', 'longitude', 'latitude', 'depth']
         missing_cols = [col for col in required_cols if col not in df.columns]
         if missing_cols:
             raise KeyError(f"Error de esquema: Faltan las columnas {missing_cols}")
