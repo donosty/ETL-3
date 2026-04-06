@@ -11,3 +11,10 @@ dependencies = [
     "requests>=2.33.1",
     "sqlalchemy>=2.0.48",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "pytest-mock>=3.15.1",
+    "ruff>=0.15.9",
+]

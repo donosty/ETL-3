@@ -19,7 +19,12 @@ check_dep(){
 
 check_dep "docker"
 check_dep "uv"
-check_dep "docker-compose" 
+
+#Validar docker compose
+if ! docker compose version &> /dev/null; then
+    echo -e "${RED}Error: Docker Compose (plugin) no disponible${NC}"
+    exit 1
+fi
 
 # Crear .env si no existe
 if [ ! -f .env ]; then
@@ -32,24 +37,47 @@ if [ ! -f .env ]; then
     fi
 fi
 
+if [ ! -d logs ]; then
+    mkdir -p logs/bd-logs logs/etl-logs
+fi
+
+START_TIME=$(date +%s)
+
+echo -e "${GREEN}Limpiando residuos${NC}"
+docker compose down
+
 echo -e "${GREEN}Levantando infraestructura en segundo plano${NC}"
 docker compose up -d --build
 
 echo -e "${BLUE}Esperando a que el proceso ETL termine${NC}"
 EXIT_CODE=$(docker wait etl_app || echo "1")
 
-LOG_FILE="logs/etl_run_$(date +'%Y%m%d_%H%M%S').log"
+TIMESTAMP=$(date +'%Y%m%d_%H%M%S')
+LOG_FILE_BD="logs/bd-logs/bd_run_${TIMESTAMP}.log"
+LOG_FILE_ETL="logs/etl-logs/etl_run_${TIMESTAMP}.log"
 
-echo -e "${BLUE}Extrayendo logs a: $LOG_FILE${NC}"
+echo -e "${BLUE}Extrayendo logs a: $LOG_FILE_BD${NC}"
+docker logs bd-postgres &> "$LOG_FILE_BD"
 
-docker compose logs > "$LOG_FILE"
+echo -e "${BLUE}Extrayendo logs a: $LOG_FILE_ETL${NC}"
+docker logs etl_app &> "$LOG_FILE_ETL"
+
+
+END_TIME=$(date +%s)
+DURATION=$((END_TIME - START_TIME))
+
 
 if [ "$EXIT_CODE" -eq 0 ]; then
     echo -e "${GREEN}Pipeline completado con éxito${NC}"
 else
     echo -e "${RED}El Pipeline falló con código $EXIT_CODE${NC}"
-    echo -e "${RED}Revisa el log en: $LOG_FILE${NC}"
+    echo -e "${RED}Revisa el log en:${NC}"
+    echo -e "${RED}BD: $LOG_FILE_BD"
+    echo -e "${RED}ETL: $LOG_FILE_ETL"
 fi
+
+
+echo -e "${BLUE}Duracion del pipeline: ${DURATION}s${NC}"
 
 echo -e "${GREEN}Estado de los contenedores:${NC}"
 docker compose ps
