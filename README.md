@@ -45,6 +45,24 @@ flowchart LR
 - Calidad y testing: ruff + pytest
 - CI/CD: GitHub Actions + Docker Hub
 
+### 3.1 Dependencias (requeriments.txt) y utilidad
+
+| Dependencia | Utilidad en el proyecto |
+|---|---|
+| pandas | Transformacion tabular de datos sismicos (limpieza, seleccion y normalizacion de columnas). |
+| requests | Consumo HTTP de la API publica de USGS para la etapa de extraccion. |
+| sqlalchemy | Conexion y operaciones de persistencia/UPSERT en PostgreSQL desde Python. |
+| psycopg2-binary | Driver PostgreSQL utilizado por SQLAlchemy para ejecutar operaciones en BD. |
+| python-dotenv | Carga de variables de entorno para configuracion local y en contenedores. |
+| pytest | Ejecucion de pruebas unitarias del pipeline (especialmente validaciones). |
+| pytest-mock | Soporte de mocking en pruebas para aislar comportamientos y dependencias externas. |
+| ruff | Linting y verificacion de calidad estatica de codigo en CI/CD. |
+| numpy | Soporte numerico interno requerido por pandas para procesamiento de datos. |
+| python-dateutil | Manejo robusto de fechas/tiempos (dependencia de pandas). |
+| urllib3, certifi, charset-normalizer, idna | Dependencias de red usadas por requests para transporte HTTP seguro y manejo de codificacion. |
+| greenlet, typing-extensions | Soporte interno de ejecucion/tipado requerido por SQLAlchemy en ciertos entornos. |
+| iniconfig, packaging, pluggy, pygments, colorama, six, tzdata | Dependencias auxiliares de testing/formato y compatibilidad multiplataforma del entorno Python. |
+
 ## 4. Estructura del Proyecto
 
 ```text
