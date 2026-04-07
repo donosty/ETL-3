@@ -43,14 +43,25 @@ fi
 
 START_TIME=$(date +%s)
 
+ENVIRONMENT=${1:-dev}
+
 echo -e "${GREEN}Limpiando residuos${NC}"
-docker compose down
+docker compose --profile dev --profile prod down
 
-echo -e "${GREEN}Levantando infraestructura en segundo plano${NC}"
-docker compose up -d --build
+echo -e "${GREEN}Levantando infraestructura en modo: ${ENVIRONMENT}${NC}"
+docker compose --profile "$ENVIRONMENT" up -d --build
 
-echo -e "${BLUE}Esperando a que el proceso ETL termine${NC}"
-EXIT_CODE=$(docker wait etl_app || echo "1")
+if [ "$ENVIRONMENT" = "dev" ]; then
+    APP_CONTAINER="etl_app_dev"
+else 
+    APP_CONTAINER="etl_app_prod"
+fi
+
+#./scripts/setup.sh -> Ejecuta Desarrollo
+#./scripts/setup.sh prod -> Ejecuta Produccion
+
+echo -e "${BLUE}Esperando a que el proceso ETL ${APP_CONTAINER} termine${NC}"
+EXIT_CODE=$(docker wait "$APP_CONTAINER" || echo "1")
 
 TIMESTAMP=$(date +'%Y%m%d_%H%M%S')
 LOG_FILE_BD="logs/bd-logs/bd_run_${TIMESTAMP}.log"
@@ -60,7 +71,7 @@ echo -e "${BLUE}Extrayendo logs a: $LOG_FILE_BD${NC}"
 docker logs bd-postgres &> "$LOG_FILE_BD"
 
 echo -e "${BLUE}Extrayendo logs a: $LOG_FILE_ETL${NC}"
-docker logs etl_app &> "$LOG_FILE_ETL"
+docker logs "$APP_CONTAINER" &> "$LOG_FILE_ETL"
 
 
 END_TIME=$(date +%s)

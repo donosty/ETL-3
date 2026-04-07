@@ -1,5 +1,6 @@
 import requests
 import logging
+import time
 from datetime import datetime, timedelta
 from typing import Optional, Dict
 
@@ -25,14 +26,32 @@ class EarthquakeExtractor:
         
         try:
             logger.info(f"Solicitando sismos desde {yesterday}")
-            response = requests.get(self.base_url, params=params, timeout=15)
-            response.raise_for_status()
             
-            data = response.json()
+            max_reintentos = 3
+            timeout_segundos = 30
             
-            count = data.get("metadata", {}).get("count", 0)
-            logger.info(f"Se encontraron {count} eventos sismicos")
-            return data
+            for intento in range(max_reintentos):
+                try:
+                    response = requests.get(self.base_url, params=params, timeout=timeout_segundos)
+                    response.raise_for_status()
+                    
+                    data = response.json()
+                    
+                    count = data.get("metadata", {}).get("count", 0)
+                    logger.info(f"Se encontraron {count} eventos sismicos")
+                    return data
+                
+                except requests.exceptions.Timeout:
+                    logger.warning(f"El servidor tardo mucho (Intento {intento + 1}/{max_reintentos}) Reintentando en 5 segundos")
+                    time.sleep(5)
+                    
+                except requests.exceptions.RequestException as e:
+                    logger.error(f"Error de conexion con la API: {e}")
+                    break
+            
+            logger.error("Se agotaron los reintentos. La API esta caida")
+            return None
+            
         
         except Exception as e:
             logger.error(f"Error critico en extraccion {e}")

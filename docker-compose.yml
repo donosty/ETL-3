@@ -20,14 +20,30 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./sql:/docker-entrypoint-initdb.d
 
-  app:
+  app-dev:
+    profiles: ["dev"]
     build:
       context: .
       dockerfile: docker/Dockerfile
-    container_name: etl_app
+    container_name: etl_app_dev
     volumes:
       - .:/app
       - /app/.venv
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER:-admin}:${DB_PASSWORD:-secret}@db:5432/${DB_NAME}
+    depends_on:
+      db:
+        condition: service_healthy    
+    env_file:
+      - .env
+    networks:
+      - data_network
+
+
+  app-prod:
+    profiles: ["prod"]
+    image: donosty/etl-3:latest
+    container_name: etl_app_prod
     environment:
       - DATABASE_URL=postgresql://${DB_USER:-admin}:${DB_PASSWORD:-secret}@db:5432/${DB_NAME}
     depends_on:
